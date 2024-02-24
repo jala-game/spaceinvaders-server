@@ -1,12 +1,7 @@
-import express from "express";
-import { Server } from "socket.io";
-import { makeEvents } from "./events";
-import http from "http";
+import { Server } from "ws";
 
-const app = express();
-const server = http.createServer(app);
+const io = new Server({
+  port: 8080,
+});
 
-const io = new Server(server);
-makeEvents(io);
-
-export { server };
+export { io };

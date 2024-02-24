@@ -1,11 +1,23 @@
-import type { Server, Socket } from "socket.io";
+import type { WebSocket } from "ws";
+import { logger } from "../../utils/logger";
+import { User } from "../../models/user";
+import { uid } from "uid";
 
-export const makeEvents = (server: Server) => {
-  server.on("connection", async (socket: Socket) => {
-    socket.on("JoinGroup", async (data: any) => {});
+const users: Array<User> = [];
 
-    socket.on("ReceiveAllMessages", async (data: any) => {});
-
-    socket.on("SendMessage", async (data: any) => {});
+export const makeEvents = (server: WebSocket) => {
+  const user: User = new User({
+    id: uid(),
   });
+
+  logger.debug("New socketId: " + user.id);
+  users.push(user);
+
+  server.on("test", async () => {
+    console.log("aaaaaaaaaaaaa");
+  });
+
+  server.on("ReceiveAllMessages", async (data: any) => {});
+
+  server.on("SendMessage", async (data: any) => {});
 };
